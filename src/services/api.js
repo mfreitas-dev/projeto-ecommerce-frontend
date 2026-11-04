@@ -18,7 +18,9 @@ export async function api(path, { method = 'GET', body, auth = false } = {}) {
 
   const data = await res.json().catch(() => null);
   if (!res.ok) {
-    throw new Error(data?.erro || data?.message || 'Erro na requisição');
+    const err = new Error(data?.erro || data?.message || 'Erro na requisição');
+    err.status = res.status;
+    throw err;
   }
   return data;
 };
