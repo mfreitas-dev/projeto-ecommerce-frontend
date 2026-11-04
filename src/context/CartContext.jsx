@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState, useCallback } from 'react';
 
 const CartContext = createContext();
 export const useCart = () => useContext(CartContext);
@@ -35,7 +35,7 @@ export function CartProvider({ children }) {
     );
 
   const removeItem = (id) => setItems((prev) => prev.filter((i) => i._id !== id));
-  const clearCart = () => setItems([]);
+  const clearCart = useCallback(() => setItems([]), []);
 
   const total = items.reduce((acc, i) => acc + i.price * i.quantity, 0);
   const count = items.reduce((acc, i) => acc + i.quantity, 0);
